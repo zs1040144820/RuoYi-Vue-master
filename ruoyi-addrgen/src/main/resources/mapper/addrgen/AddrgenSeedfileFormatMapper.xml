@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenSeedfileFormatMapper">
+    
+    <resultMap type="AddrgenSeedfileFormat" id="AddrgenSeedfileFormatResult">
+        <result property="formatRecordId"    column="format_record_id"    />
+        <result property="addrSeedfileId"    column="addr_seedfile_id"    />
+        <result property="inputFilename"    column="input_filename"    />
+        <result property="outputFilename"    column="output_filename"    />
+        <result property="formatTime"    column="format_time"    />
+    </resultMap>
+
+    <sql id="selectAddrgenSeedfileFormatVo">
+        select format_record_id, addr_seedfile_id, input_filename, output_filename, format_time from addrgen_seedfile_format
+    </sql>
+
+    <select id="selectAddrgenSeedfileFormatList" parameterType="AddrgenSeedfileFormat" resultMap="AddrgenSeedfileFormatResult">
+        <include refid="selectAddrgenSeedfileFormatVo"/>
+        <where>  
+            <if test="addrSeedfileId != null "> and addr_seedfile_id = #{addrSeedfileId}</if>
+            <if test="inputFilename != null  and inputFilename != ''"> and input_filename like concat('%', #{inputFilename}, '%')</if>
+            <if test="outputFilename != null  and outputFilename != ''"> and output_filename like concat('%', #{outputFilename}, '%')</if>
+            <if test="formatTime != null "> and format_time = #{formatTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenSeedfileFormatByFormatRecordId" parameterType="Long" resultMap="AddrgenSeedfileFormatResult">
+        <include refid="selectAddrgenSeedfileFormatVo"/>
+        where format_record_id = #{formatRecordId}
+    </select>
+        
+    <insert id="insertAddrgenSeedfileFormat" parameterType="AddrgenSeedfileFormat" useGeneratedKeys="true" keyProperty="formatRecordId">
+        insert into addrgen_seedfile_format
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id,</if>
+            <if test="inputFilename != null">input_filename,</if>
+            <if test="outputFilename != null">output_filename,</if>
+            <if test="formatTime != null">format_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileId != null">#{addrSeedfileId},</if>
+            <if test="inputFilename != null">#{inputFilename},</if>
+            <if test="outputFilename != null">#{outputFilename},</if>
+            <if test="formatTime != null">#{formatTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenSeedfileFormat" parameterType="AddrgenSeedfileFormat">
+        update addrgen_seedfile_format
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id = #{addrSeedfileId},</if>
+            <if test="inputFilename != null">input_filename = #{inputFilename},</if>
+            <if test="outputFilename != null">output_filename = #{outputFilename},</if>
+            <if test="formatTime != null">format_time = #{formatTime},</if>
+        </trim>
+        where format_record_id = #{formatRecordId}
+    </update>
+
+    <delete id="deleteAddrgenSeedfileFormatByFormatRecordId" parameterType="Long">
+        delete from addrgen_seedfile_format where format_record_id = #{formatRecordId}
+    </delete>
+
+    <delete id="deleteAddrgenSeedfileFormatByFormatRecordIds" parameterType="String">
+        delete from addrgen_seedfile_format where format_record_id in 
+        <foreach item="formatRecordId" collection="array" open="(" separator="," close=")">
+            #{formatRecordId}
+        </foreach>
+    </delete>
+</mapper>

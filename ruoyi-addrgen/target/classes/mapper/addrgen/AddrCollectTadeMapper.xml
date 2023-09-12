@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrCollectTadeMapper">
+    <!--
+    <insert id="insertIntoDetail" parameterType="AddrCollectDetail" useGeneratedKeys="false">
+        insert into addrcollect_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="filename != null and filename != ''">addr_collect_name,</if>
+            <if test="timetype != null">addr_collect_timetype,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="filename != null and filename != ''">#{filename},</if>
+            <if test="timetype != null">#{timetype},</if>
+        </trim>
+    </insert>插入记录 -->
+    <!-- 建立 对象-表 的映射 -->
+    <resultMap type="AddrCollectTade" id="AddrCollectTadeResult">
+        <result property="taskname"    column="addr_collect_name"    />
+        <result property="tstime"    column="addr_collect_startime"    />
+        <result property="uid"    column="addr_collect_uid"    />
+        <result property="command"    column="addr_collect_command"    />
+        <result property="source"    column="addr_collect_source"    />
+    </resultMap>
+
+    <!-- 查询代码 -->
+    <sql id="selectTadeVo">
+        select addr_collect_name,addr_collect_startime, addr_collect_uid, addr_collect_command,addr_collect_source from addrcollect_tade
+    </sql>
+
+    <!--实现条件查询 -->
+    <select id="selectTadeList" parameterType="AddrCollectTade" resultMap="AddrCollectTadeResult">
+        <include refid="selectTadeVo"/>
+        <where>
+            <if test="taskname != null  and taskname != ''"> and addr_collect_name like concat('%', #{taskname}, '%')</if>
+            <if test="tstime != null"> and addr_collect_startime = #{tstime}</if>
+            <if test="uid != null  and uid != ''"> and addr_collect_uid = #{uid}</if>
+            <if test="command != null  and command != ''"> and addr_collect_command = #{command}</if>
+            <if test="source != null  and source != ''"> and addr_collect_source = #{source}</if>
+        </where>
+    </select>
+
+    <!-- 插入记录 -->
+    <insert id="insertIntoTade" parameterType="AddrCollectTade" useGeneratedKeys="false">
+        insert into addrcollect_tade
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="taskname != null and taskname != ''">addr_collect_name,</if>
+            <if test="tstime != null">addr_collect_startime,</if>
+            <if test="uid != null">addr_collect_uid,</if>
+            <if test="command != null">addr_collect_command,</if>
+            <if test="source != null">addr_collect_source,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="taskname != null and taskname != ''">#{taskname},</if>
+            <if test="tstime != null">#{tstime},</if>
+            <if test="uid != null">#{uid},</if>
+            <if test="command != null">#{command},</if>
+            <if test="source != null">#{source},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteTadeByUid" parameterType="String">
+        delete from addrcollect_tade where addr_collect_uid = #{uid}
+    </delete>
+
+    <!--实现条件查询 -->
+    <select id="selectTade" parameterType="String" resultMap="AddrCollectTadeResult">
+        select * from addrcollect_tade where addr_collect_uid = #{uid}
+    </select>
+
+    <!--
+    <update id="updateTaskList" parameterType="AddrCollect">
+        update addrcollect_tasklist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="filename != null and filename != ''">addr_collect_name = #{filename},</if>
+            <if test="timetype != null">addr_collect_timetype = #{timetype},</if>
+            <if test="collectime != null and collectime != ''">addr_collect_collectime = #{collectime},</if>
+            <if test="startime != null">addr_collect_startime = #{startime},</if>
+            <if test="tasksituation != null">addr_collect_tasksituation = #{tasksituation},</if>
+            <if test="commandresponse != null">addr_collect_commandresponse = #{commandresponse},</if>
+            <if test="uniqueID != null">addr_collect_uid = #{uniqueID},</if>
+        </trim>
+        where addr_collect_uid = #{uniqueID}
+    </update>更新记录 -->
+
+</mapper>

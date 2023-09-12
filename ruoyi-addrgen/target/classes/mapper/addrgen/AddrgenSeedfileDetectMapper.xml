@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenSeedfileDetectMapper">
+    
+    <resultMap type="AddrgenSeedfileDetect" id="AddrgenSeedfileDetectResult">
+        <result property="detectRecordId"    column="detect_record_id"    />
+        <result property="addrSeedfileId"    column="addr_seedfile_id"    />
+        <result property="addrSeedfileName"    column="addr_seedfile_name"    />
+        <result property="detectConsume"    column="detect_consume"    />
+        <result property="detectTime"    column="detect_time"    />
+        <result property="detectStatus"    column="detect_status"    />
+    </resultMap>
+
+    <sql id="selectAddrgenSeedfileDetectVo">
+        select detect_record_id, addr_seedfile_id, addr_seedfile_name, detect_consume, detect_time,detect_status from addrgen_seedfile_detect
+    </sql>
+
+    <select id="selectAddrgenSeedfileDetectList" parameterType="AddrgenSeedfileDetect" resultMap="AddrgenSeedfileDetectResult">
+        <include refid="selectAddrgenSeedfileDetectVo"/>
+        <where>  
+            <if test="addrSeedfileId != null "> and addr_seedfile_id = #{addrSeedfileId}</if>
+            <if test="addrSeedfileName != null  and addrSeedfileName != ''"> and addr_seedfile_name like concat('%', #{addrSeedfileName}, '%')</if>
+            <if test="detectConsume != null  and detectConsume != ''"> and detect_consume = #{detectConsume}</if>
+            <if test="params.beginDetectTime != null and params.beginDetectTime != '' and params.endDetectTime != null and params.endDetectTime != ''"> and detect_time between #{params.beginDetectTime} and #{params.endDetectTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenSeedfileDetectByDetectRecordId" parameterType="Long" resultMap="AddrgenSeedfileDetectResult">
+        <include refid="selectAddrgenSeedfileDetectVo"/>
+        where detect_record_id = #{detectRecordId}
+    </select>
+        
+    <insert id="insertAddrgenSeedfileDetect" parameterType="AddrgenSeedfileDetect" useGeneratedKeys="true" keyProperty="detectRecordId">
+        insert into addrgen_seedfile_detect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id,</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name,</if>
+            <if test="detectConsume != null">detect_consume,</if>
+            <if test="detectTime != null">detect_time,</if>
+            <if test="detectStatus != null">detect_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileId != null">#{addrSeedfileId},</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">#{addrSeedfileName},</if>
+            <if test="detectConsume != null">#{detectConsume},</if>
+            <if test="detectTime != null">#{detectTime},</if>
+            <if test="detectStatus != null">#{detectStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenSeedfileDetect" parameterType="AddrgenSeedfileDetect">
+        update addrgen_seedfile_detect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id = #{addrSeedfileId},</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name = #{addrSeedfileName},</if>
+            <if test="detectConsume != null">detect_consume = #{detectConsume},</if>
+            <if test="detectTime != null">detect_time = #{detectTime},</if>
+            <if test="detectStatus != null">detect_status = #{detectStatus},</if>
+        </trim>
+        where detect_record_id = #{detectRecordId}
+    </update>
+    <update id="updateAddrgenSeedfileDetectByFileId" parameterType="AddrgenSeedfileDetect">
+        update addrgen_seedfile_detect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id = #{addrSeedfileId},</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name = #{addrSeedfileName},</if>
+            <if test="detectConsume != null">detect_consume = #{detectConsume},</if>
+            <if test="detectTime != null">detect_time = #{detectTime},</if>
+            <if test="detectStatus != null">detect_status = #{detectStatus},</if>
+        </trim>
+        where addr_seedfile_id = #{addrSeedfileId}
+    </update>
+
+    <delete id="deleteAddrgenSeedfileDetectByDetectRecordId" parameterType="Long">
+        delete from addrgen_seedfile_detect where detect_record_id = #{detectRecordId}
+    </delete>
+
+    <delete id="deleteAddrgenSeedfileDetectByDetectRecordIds" parameterType="String">
+        delete from addrgen_seedfile_detect where detect_record_id in 
+        <foreach item="detectRecordId" collection="array" open="(" separator="," close=")">
+            #{detectRecordId}
+        </foreach>
+    </delete>
+</mapper>

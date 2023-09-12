@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenSeedfileDetailsMapper">
+    
+    <resultMap type="AddrgenSeedfileDetails" id="AddrgenSeedfileDetailsResult">
+        <result property="addrseedId"    column="addrseed_id"    />
+        <result property="addrSeedfileId"    column="addr_seedfile_id"    />
+        <result property="addrseedName"    column="addrseed_name"    />
+        <result property="addrseedCategory"    column="addrseed_category"    />
+        <result property="ipaddress"    column="ipaddress"    />
+        <result property="collectTime"    column="collect_time"    />
+        <result property="standardIpaddress"    column="standard_ipaddress"    />
+        <result property="asn"    column="asn"    />
+        <result property="bgpPrefix"    column="bgp_prefix"    />
+        <result property="interfaceId"    column="interface_id"    />
+        <result property="responseType"    column="response_type"    />
+        <result property="stability"    column="stability"    />
+        <result property="collectis"    column="collectis"    />
+        <result property="detect0"    column="detect0"    />
+        <result property="detect1"    column="detect1"    />
+        <result property="detect2"    column="detect2"    />
+        <result property="detect3"    column="detect3"    />
+        <result property="detect4"    column="detect4"    />
+        <result property="detect5"    column="detect5"    />
+        <result property="detect6"    column="detect6"    />
+        <result property="detect7"    column="detect7"    />
+        <result property="detect8"    column="detect8"    />
+        <result property="detect9"    column="detect9"    />
+        <result property="detect10"    column="detect10"    />
+        <result property="detect11"    column="detect11"    />
+        <result property="detect12"    column="detect12"    />
+        <result property="detect13"    column="detect13"    />
+        <result property="detect14"    column="detect14"    />
+        <result property="detect15"    column="detect15"    />
+        <result property="detect16"    column="detect16"    />
+        <result property="detect17"    column="detect17"    />
+        <result property="detect18"    column="detect18"    />
+        <result property="detect19"    column="detect19"    />
+        <result property="detect20"    column="detect20"    />
+        <result property="detect21"    column="detect21"    />
+        <result property="detect22"    column="detect22"    />
+        <result property="detect23"    column="detect23"    />
+        <result property="detect24"    column="detect24"    />
+        <result property="detect25"    column="detect25"    />
+        <result property="detect26"    column="detect26"    />
+        <result property="detect27"    column="detect27"    />
+        <result property="detect28"    column="detect28"    />
+        <result property="detect29"    column="detect29"    />
+    </resultMap>
+
+    <sql id="selectAddrgenSeedfileDetailsVo">
+        select addrseed_id, addr_seedfile_id, addrseed_name, addrseed_category, ipaddress, collect_time, standard_ipaddress, asn, bgp_prefix, interface_id, response_type, stability, collectis, detect0, detect1, detect2, detect3, detect4, detect5, detect6, detect7, detect8, detect9, detect10, detect11, detect12, detect13, detect14, detect15, detect16, detect17, detect18, detect19, detect20, detect21, detect22, detect23, detect24, detect25, detect26, detect27, detect28, detect29 from addrgen_seedfile_details
+    </sql>
+
+    <select id="selectAddrgenSeedfileDetailsList" parameterType="AddrgenSeedfileDetails" resultMap="AddrgenSeedfileDetailsResult">
+        <include refid="selectAddrgenSeedfileDetailsVo"/>
+        <where>  
+            <if test="addrSeedfileId != null "> and addr_seedfile_id = #{addrSeedfileId}</if>
+            <if test="addrseedName != null  and addrseedName != ''"> and addrseed_name like concat('%', #{addrseedName}, '%')</if>
+            <if test="addrseedCategory != null  and addrseedCategory != ''"> and addrseed_category = #{addrseedCategory}</if>
+            <if test="ipaddress != null  and ipaddress != ''"> and ipaddress = #{ipaddress}</if>
+            <if test="collectTime != null "> and collect_time = #{collectTime}</if>
+            <if test="standardIpaddress != null  and standardIpaddress != ''"> and standard_ipaddress = #{standardIpaddress}</if>
+            <if test="asn != null  and asn != ''"> and asn = #{asn}</if>
+            <if test="bgpPrefix != null  and bgpPrefix != ''"> and bgp_prefix = #{bgpPrefix}</if>
+            <if test="interfaceId != null  and interfaceId != ''"> and interface_id = #{interfaceId}</if>
+            <if test="responseType != null  and responseType != ''"> and response_type = #{responseType}</if>
+            <if test="stability != null  and stability != ''"> and stability = #{stability}</if>
+            <if test="collectis != null  and collectis != ''"> and collectis = #{collectis}</if>
+            <if test="detect0 != null  and detect0 != ''"> and detect0 = #{detect0}</if>
+            <if test="detect1 != null  and detect1 != ''"> and detect1 = #{detect1}</if>
+            <if test="detect2 != null  and detect2 != ''"> and detect2 = #{detect2}</if>
+            <if test="detect3 != null  and detect3 != ''"> and detect3 = #{detect3}</if>
+            <if test="detect4 != null  and detect4 != ''"> and detect4 = #{detect4}</if>
+            <if test="detect5 != null  and detect5 != ''"> and detect5 = #{detect5}</if>
+            <if test="detect6 != null  and detect6 != ''"> and detect6 = #{detect6}</if>
+            <if test="detect7 != null  and detect7 != ''"> and detect7 = #{detect7}</if>
+            <if test="detect8 != null  and detect8 != ''"> and detect8 = #{detect8}</if>
+            <if test="detect9 != null  and detect9 != ''"> and detect9 = #{detect9}</if>
+            <if test="detect10 != null  and detect10 != ''"> and detect10 = #{detect10}</if>
+            <if test="detect11 != null  and detect11 != ''"> and detect11 = #{detect11}</if>
+            <if test="detect12 != null  and detect12 != ''"> and detect12 = #{detect12}</if>
+            <if test="detect13 != null  and detect13 != ''"> and detect13 = #{detect13}</if>
+            <if test="detect14 != null  and detect14 != ''"> and detect14 = #{detect14}</if>
+            <if test="detect15 != null  and detect15 != ''"> and detect15 = #{detect15}</if>
+            <if test="detect16 != null  and detect16 != ''"> and detect16 = #{detect16}</if>
+            <if test="detect17 != null  and detect17 != ''"> and detect17 = #{detect17}</if>
+            <if test="detect18 != null  and detect18 != ''"> and detect18 = #{detect18}</if>
+            <if test="detect19 != null  and detect19 != ''"> and detect19 = #{detect19}</if>
+            <if test="detect20 != null  and detect20 != ''"> and detect20 = #{detect20}</if>
+            <if test="detect21 != null  and detect21 != ''"> and detect21 = #{detect21}</if>
+            <if test="detect22 != null  and detect22 != ''"> and detect22 = #{detect22}</if>
+            <if test="detect23 != null  and detect23 != ''"> and detect23 = #{detect23}</if>
+            <if test="detect24 != null  and detect24 != ''"> and detect24 = #{detect24}</if>
+            <if test="detect25 != null  and detect25 != ''"> and detect25 = #{detect25}</if>
+            <if test="detect26 != null  and detect26 != ''"> and detect26 = #{detect26}</if>
+            <if test="detect27 != null  and detect27 != ''"> and detect27 = #{detect27}</if>
+            <if test="detect28 != null  and detect28 != ''"> and detect28 = #{detect28}</if>
+            <if test="detect29 != null  and detect29 != ''"> and detect29 = #{detect29}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenSeedfileDetailsByAddrseedId" parameterType="Long" resultMap="AddrgenSeedfileDetailsResult">
+        <include refid="selectAddrgenSeedfileDetailsVo"/>
+        where addrseed_id = #{addrseedId}
+    </select>
+        
+    <insert id="insertAddrgenSeedfileDetails" parameterType="AddrgenSeedfileDetails" useGeneratedKeys="true" keyProperty="addrseedId">
+        insert into addrgen_seedfile_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id,</if>
+            <if test="addrseedName != null">addrseed_name,</if>
+            <if test="addrseedCategory != null">addrseed_category,</if>
+            <if test="ipaddress != null and ipaddress != ''">ipaddress,</if>
+            <if test="collectTime != null">collect_time,</if>
+            <if test="standardIpaddress != null">standard_ipaddress,</if>
+            <if test="asn != null">asn,</if>
+            <if test="bgpPrefix != null">bgp_prefix,</if>
+            <if test="interfaceId != null">interface_id,</if>
+            <if test="responseType != null">response_type,</if>
+            <if test="stability != null">stability,</if>
+            <if test="collectis != null">collectis,</if>
+            <if test="detect0 != null">detect0,</if>
+            <if test="detect1 != null">detect1,</if>
+            <if test="detect2 != null">detect2,</if>
+            <if test="detect3 != null">detect3,</if>
+            <if test="detect4 != null">detect4,</if>
+            <if test="detect5 != null">detect5,</if>
+            <if test="detect6 != null">detect6,</if>
+            <if test="detect7 != null">detect7,</if>
+            <if test="detect8 != null">detect8,</if>
+            <if test="detect9 != null">detect9,</if>
+            <if test="detect10 != null">detect10,</if>
+            <if test="detect11 != null">detect11,</if>
+            <if test="detect12 != null">detect12,</if>
+            <if test="detect13 != null">detect13,</if>
+            <if test="detect14 != null">detect14,</if>
+            <if test="detect15 != null">detect15,</if>
+            <if test="detect16 != null">detect16,</if>
+            <if test="detect17 != null">detect17,</if>
+            <if test="detect18 != null">detect18,</if>
+            <if test="detect19 != null">detect19,</if>
+            <if test="detect20 != null">detect20,</if>
+            <if test="detect21 != null">detect21,</if>
+            <if test="detect22 != null">detect22,</if>
+            <if test="detect23 != null">detect23,</if>
+            <if test="detect24 != null">detect24,</if>
+            <if test="detect25 != null">detect25,</if>
+            <if test="detect26 != null">detect26,</if>
+            <if test="detect27 != null">detect27,</if>
+            <if test="detect28 != null">detect28,</if>
+            <if test="detect29 != null">detect29,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileId != null">#{addrSeedfileId},</if>
+            <if test="addrseedName != null">#{addrseedName},</if>
+            <if test="addrseedCategory != null">#{addrseedCategory},</if>
+            <if test="ipaddress != null and ipaddress != ''">#{ipaddress},</if>
+            <if test="collectTime != null">#{collectTime},</if>
+            <if test="standardIpaddress != null">#{standardIpaddress},</if>
+            <if test="asn != null">#{asn},</if>
+            <if test="bgpPrefix != null">#{bgpPrefix},</if>
+            <if test="interfaceId != null">#{interfaceId},</if>
+            <if test="responseType != null">#{responseType},</if>
+            <if test="stability != null">#{stability},</if>
+            <if test="collectis != null">#{collectis},</if>
+            <if test="detect0 != null">#{detect0},</if>
+            <if test="detect1 != null">#{detect1},</if>
+            <if test="detect2 != null">#{detect2},</if>
+            <if test="detect3 != null">#{detect3},</if>
+            <if test="detect4 != null">#{detect4},</if>
+            <if test="detect5 != null">#{detect5},</if>
+            <if test="detect6 != null">#{detect6},</if>
+            <if test="detect7 != null">#{detect7},</if>
+            <if test="detect8 != null">#{detect8},</if>
+            <if test="detect9 != null">#{detect9},</if>
+            <if test="detect10 != null">#{detect10},</if>
+            <if test="detect11 != null">#{detect11},</if>
+            <if test="detect12 != null">#{detect12},</if>
+            <if test="detect13 != null">#{detect13},</if>
+            <if test="detect14 != null">#{detect14},</if>
+            <if test="detect15 != null">#{detect15},</if>
+            <if test="detect16 != null">#{detect16},</if>
+            <if test="detect17 != null">#{detect17},</if>
+            <if test="detect18 != null">#{detect18},</if>
+            <if test="detect19 != null">#{detect19},</if>
+            <if test="detect20 != null">#{detect20},</if>
+            <if test="detect21 != null">#{detect21},</if>
+            <if test="detect22 != null">#{detect22},</if>
+            <if test="detect23 != null">#{detect23},</if>
+            <if test="detect24 != null">#{detect24},</if>
+            <if test="detect25 != null">#{detect25},</if>
+            <if test="detect26 != null">#{detect26},</if>
+            <if test="detect27 != null">#{detect27},</if>
+            <if test="detect28 != null">#{detect28},</if>
+            <if test="detect29 != null">#{detect29},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenSeedfileDetails" parameterType="AddrgenSeedfileDetails">
+        update addrgen_seedfile_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id = #{addrSeedfileId},</if>
+            <if test="addrseedName != null">addrseed_name = #{addrseedName},</if>
+            <if test="addrseedCategory != null">addrseed_category = #{addrseedCategory},</if>
+            <if test="ipaddress != null and ipaddress != ''">ipaddress = #{ipaddress},</if>
+            <if test="collectTime != null">collect_time = #{collectTime},</if>
+            <if test="standardIpaddress != null">standard_ipaddress = #{standardIpaddress},</if>
+            <if test="asn != null">asn = #{asn},</if>
+            <if test="bgpPrefix != null">bgp_prefix = #{bgpPrefix},</if>
+            <if test="interfaceId != null">interface_id = #{interfaceId},</if>
+            <if test="responseType != null">response_type = #{responseType},</if>
+            <if test="stability != null">stability = #{stability},</if>
+            <if test="collectis != null">collectis = #{collectis},</if>
+            <if test="detect0 != null">detect0 = #{detect0},</if>
+            <if test="detect1 != null">detect1 = #{detect1},</if>
+            <if test="detect2 != null">detect2 = #{detect2},</if>
+            <if test="detect3 != null">detect3 = #{detect3},</if>
+            <if test="detect4 != null">detect4 = #{detect4},</if>
+            <if test="detect5 != null">detect5 = #{detect5},</if>
+            <if test="detect6 != null">detect6 = #{detect6},</if>
+            <if test="detect7 != null">detect7 = #{detect7},</if>
+            <if test="detect8 != null">detect8 = #{detect8},</if>
+            <if test="detect9 != null">detect9 = #{detect9},</if>
+            <if test="detect10 != null">detect10 = #{detect10},</if>
+            <if test="detect11 != null">detect11 = #{detect11},</if>
+            <if test="detect12 != null">detect12 = #{detect12},</if>
+            <if test="detect13 != null">detect13 = #{detect13},</if>
+            <if test="detect14 != null">detect14 = #{detect14},</if>
+            <if test="detect15 != null">detect15 = #{detect15},</if>
+            <if test="detect16 != null">detect16 = #{detect16},</if>
+            <if test="detect17 != null">detect17 = #{detect17},</if>
+            <if test="detect18 != null">detect18 = #{detect18},</if>
+            <if test="detect19 != null">detect19 = #{detect19},</if>
+            <if test="detect20 != null">detect20 = #{detect20},</if>
+            <if test="detect21 != null">detect21 = #{detect21},</if>
+            <if test="detect22 != null">detect22 = #{detect22},</if>
+            <if test="detect23 != null">detect23 = #{detect23},</if>
+            <if test="detect24 != null">detect24 = #{detect24},</if>
+            <if test="detect25 != null">detect25 = #{detect25},</if>
+            <if test="detect26 != null">detect26 = #{detect26},</if>
+            <if test="detect27 != null">detect27 = #{detect27},</if>
+            <if test="detect28 != null">detect28 = #{detect28},</if>
+            <if test="detect29 != null">detect29 = #{detect29},</if>
+        </trim>
+        where addrseed_id = #{addrseedId}
+    </update>
+
+    <update id="batchUpdateAddrgenSeedfileDetails" parameterType="java.util.List">
+        update addrgen_seedfile_details
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="standard_ipaddress =(case" suffix="end),">
+                <foreach collection="list" item="i" index="index">
+                        when addrseed_id=#{i.addrseedId} then #{i.standardIpaddress}
+                </foreach>
+            </trim>
+            <trim prefix="ipaddress =(case" suffix="end),">
+                <foreach collection="list" item="i" index="index">
+                    when addrseed_id=#{i.addrseedId} then #{i.ipaddress}
+                </foreach>
+            </trim>
+            <trim prefix="asn =(case" suffix="end),">
+                <foreach collection="list" item="i" index="index">
+                    when addrseed_id=#{i.addrseedId} then #{i.asn}
+                </foreach>
+            </trim>
+            <trim prefix="bgp_prefix =(case" suffix="end),">
+                <foreach collection="list" item="i" index="index">
+                    when addrseed_id=#{i.addrseedId} then #{i.bgpPrefix}
+                </foreach>
+            </trim>
+            <trim prefix="interface_id =(case" suffix="end),">
+                <foreach collection="list" item="i" index="index">
+                    when addrseed_id=#{i.addrseedId} then #{i.interfaceId}
+                </foreach>
+            </trim>
+            <trim prefix="response_type =(case" suffix="end),">
+                <foreach collection="list" item="i" index="index">
+                    when addrseed_id=#{i.addrseedId} then #{i.responseType}
+                </foreach>
+            </trim>
+        </trim>
+        where
+        <foreach collection="list" separator="or" item="i" index="index" >
+            addrseed_id=#{i.addrseedId}
+        </foreach>
+    </update>
+
+    <delete id="deleteAddrgenSeedfileDetailsByAddrseedId" parameterType="Long">
+        delete from addrgen_seedfile_details where addrseed_id = #{addrseedId}
+    </delete>
+
+    <delete id="deleteAddrgenSeedfileDetailsByAddrseedIds" parameterType="String">
+        delete from addrgen_seedfile_details where addrseed_id in 
+        <foreach item="addrseedId" collection="array" open="(" separator="," close=")">
+            #{addrseedId}
+        </foreach>
+    </delete>
+    <select id="selectAddrgenSeedfileDetailsListByFileId" parameterType="Long"
+            resultMap="AddrgenSeedfileDetailsResult">
+        <include refid="selectAddrgenSeedfileDetailsVo"/>
+        where addr_seedfile_id = #{addrSeedfileId}
+    </select>
+    <select id="selectAddrgenSeedfileDetailsListByStardIP" parameterType="String"
+            resultMap="AddrgenSeedfileDetailsResult">
+        <include refid="selectAddrgenSeedfileDetailsVo"/>
+        where standard_ipaddress = #{standardIpaddress}
+    </select>
+</mapper>

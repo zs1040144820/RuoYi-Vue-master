@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vuln.mapper.VulnSingleAddrDetailsMapper">
+    
+    <resultMap type="VulnSingleAddrDetails" id="VulnSingleAddrDetailsResult">
+        <result property="ipaddrId"    column="ipaddr_id"    />
+        <result property="recordsId"    column="records_id"    />
+        <result property="ipv6Addr"    column="ipv6_addr"    />
+        <result property="resultDetails"    column="result_details"    />
+        <result property="command"    column="command"    />
+        <result property="scanTime"    column="scan_time"    />
+        <result property="cve"    column="cve"    />
+        <result property="cnnd"    column="cnnd"    />
+        <result property="os"    column="os"    />
+        <result property="services"    column="services"    />
+    </resultMap>
+
+    <sql id="selectVulnSingleAddrDetailsVo">
+        select ipaddr_id, records_id, ipv6_addr, result_details, command, scan_time, cve, cnnd, os, services from vuln_single_addr_details
+    </sql>
+
+    <select id="selectVulnSingleAddrDetailsList" parameterType="VulnSingleAddrDetails" resultMap="VulnSingleAddrDetailsResult">
+        <include refid="selectVulnSingleAddrDetailsVo"/>
+        <where>  
+            <if test="recordsId != null "> and records_id = #{recordsId}</if>
+            <if test="ipv6Addr != null  and ipv6Addr != ''"> and ipv6_addr = #{ipv6Addr}</if>
+            <if test="resultDetails != null  and resultDetails != ''"> and result_details like concat('%', #{resultDetails}, '%')</if>
+            <if test="command != null  and command != ''"> and command like concat('%', #{command}, '%')</if>
+            <if test="params.beginScanTime != null and params.beginScanTime != '' and params.endScanTime != null and params.endScanTime != ''"> and scan_time between #{params.beginScanTime} and #{params.endScanTime}</if>
+            <if test="cve != null  and cve != ''"> and cve = #{cve}</if>
+            <if test="cnnd != null  and cnnd != ''"> and cnnd = #{cnnd}</if>
+            <if test="os != null  and os != ''"> and os like concat('%', #{os}, '%')</if>
+            <if test="services != null  and services != ''"> and services like concat('%', #{services}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectVulnSingleAddrDetailsByIpaddrId" parameterType="Long" resultMap="VulnSingleAddrDetailsResult">
+        <include refid="selectVulnSingleAddrDetailsVo"/>
+        where ipaddr_id = #{ipaddrId}
+    </select>
+        
+    <insert id="insertVulnSingleAddrDetails" parameterType="VulnSingleAddrDetails" useGeneratedKeys="true" keyProperty="ipaddrId">
+        insert into vuln_single_addr_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordsId != null">records_id,</if>
+            <if test="ipv6Addr != null and ipv6Addr != ''">ipv6_addr,</if>
+            <if test="resultDetails != null">result_details,</if>
+            <if test="command != null">command,</if>
+            <if test="scanTime != null">scan_time,</if>
+            <if test="cve != null">cve,</if>
+            <if test="cnnd != null">cnnd,</if>
+            <if test="os != null">os,</if>
+            <if test="services != null">services,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordsId != null">#{recordsId},</if>
+            <if test="ipv6Addr != null and ipv6Addr != ''">#{ipv6Addr},</if>
+            <if test="resultDetails != null">#{resultDetails},</if>
+            <if test="command != null">#{command},</if>
+            <if test="scanTime != null">#{scanTime},</if>
+            <if test="cve != null">#{cve},</if>
+            <if test="cnnd != null">#{cnnd},</if>
+            <if test="os != null">#{os},</if>
+            <if test="services != null">#{services},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVulnSingleAddrDetails" parameterType="VulnSingleAddrDetails">
+        update vuln_single_addr_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recordsId != null">records_id = #{recordsId},</if>
+            <if test="ipv6Addr != null and ipv6Addr != ''">ipv6_addr = #{ipv6Addr},</if>
+            <if test="resultDetails != null">result_details = #{resultDetails},</if>
+            <if test="command != null">command = #{command},</if>
+            <if test="scanTime != null">scan_time = #{scanTime},</if>
+            <if test="cve != null">cve = #{cve},</if>
+            <if test="cnnd != null">cnnd = #{cnnd},</if>
+            <if test="os != null">os = #{os},</if>
+            <if test="services != null">services = #{services},</if>
+        </trim>
+        where ipaddr_id = #{ipaddrId}
+    </update>
+
+    <delete id="deleteVulnSingleAddrDetailsByIpaddrId" parameterType="Long">
+        delete from vuln_single_addr_details where ipaddr_id = #{ipaddrId}
+    </delete>
+
+    <delete id="deleteVulnSingleAddrDetailsByIpaddrIds" parameterType="String">
+        delete from vuln_single_addr_details where ipaddr_id in 
+        <foreach item="ipaddrId" collection="array" open="(" separator="," close=")">
+            #{ipaddrId}
+        </foreach>
+    </delete>
+</mapper>

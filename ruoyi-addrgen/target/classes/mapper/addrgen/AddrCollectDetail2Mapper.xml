@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrCollectDetail2Mapper">
+
+    <!-- 建立 对象-表 的映射 -->
+    <resultMap type="AddrCollectDetail2" id="AddrCollectAddrResult2">
+        <result property="uid"    column="addr_collect_uid"    />
+        <result property="detail"    column="addr_collect_detail"    />
+        <result property="command"    column="addr_collect_command"    />
+        <result property="isalive"    column="addr_collect_isalive"    />
+    </resultMap>
+
+    <!-- 查询代码 -->
+    <sql id="selectDetail2Vo">
+        select addr_collect_uid, addr_collect_detail,addr_collect_command,addr_collect_isalive from addrcollect_detail2
+    </sql>
+
+    <!--实现条件查询 -->
+    <select id="selectIps" parameterType="String" resultMap="AddrCollectAddrResult2">
+        select addr_collect_detail from addrcollect_detail2 where addr_collect_isalive = "alive"
+    </select>
+
+    <!-- 插入一条记录 -->
+    <insert id="insertDetail2" parameterType="AddrCollectDetail2">
+        insert into addrcollect_detail2
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uid != null">addr_collect_uid,</if>
+            <if test="detail != null">addr_collect_detail,</if>
+            <if test="command != null">addr_collect_command,</if>
+            <if test="isalive != null">addr_collect_isalive,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uid != null">#{uid},</if>
+            <if test="detail != null">#{detail},</if>
+            <if test="command != null">#{command},</if>
+            <if test="isalive != null">#{isalive},</if>
+        </trim>
+    </insert>
+
+    <delete id="deleteDetail2ByUid" parameterType="String">
+        delete from addrcollect_detail2 where addr_collect_uid = #{uid}
+    </delete>
+
+    <!--实现条件查询 -->
+    <select id="selectDetail2" parameterType="String" resultMap="AddrCollectAddrResult2">
+        <include refid="selectDetail2Vo"/>
+        <where>
+            <if test="uid != null  and uid != ''"> and addr_collect_uid = #{uid}</if>
+            <if test="detail != detail  and detail != ''"> and addr_collect_detail = #{detail}</if>
+            <if test="command != null  and command != ''"> and addr_collect_command = #{command}</if>
+            <if test="isalive != isalive  and isalive != ''"> and addr_collect_isalive = #{isalive}</if>
+        </where>
+    </select>
+
+    <select id="selectAll" parameterType="String" resultMap="AddrCollectAddrResult2">
+        select * from addrcollect_detail2
+    </select>
+
+</mapper>

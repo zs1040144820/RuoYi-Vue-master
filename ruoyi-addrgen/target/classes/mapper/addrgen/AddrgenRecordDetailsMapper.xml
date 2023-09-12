@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenRecordDetailsMapper">
+    
+    <resultMap type="AddrgenRecordDetails" id="AddrgenRecordDetailsResult">
+        <result property="detailsId"    column="details_id"    />
+        <result property="ipaddr"    column="ipaddr"    />
+        <result property="isactive"    column="isactive"    />
+        <result property="recordId"    column="record_id"    />
+    </resultMap>
+
+    <sql id="selectAddrgenRecordDetailsVo">
+        select details_id, ipaddr, isactive, record_id from addrgen_record_details
+    </sql>
+
+    <select id="selectAddrgenRecordDetailsList" parameterType="AddrgenRecordDetails" resultMap="AddrgenRecordDetailsResult">
+        <include refid="selectAddrgenRecordDetailsVo"/>
+        <where>  
+            <if test="ipaddr != null  and ipaddr != ''"> and ipaddr = #{ipaddr}</if>
+            <if test="isactive != null  and isactive != ''"> and isactive = #{isactive}</if>
+            <if test="recordId != null "> and record_id = #{recordId}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenRecordDetailsByDetailsId" parameterType="Long" resultMap="AddrgenRecordDetailsResult">
+        <include refid="selectAddrgenRecordDetailsVo"/>
+        where details_id = #{detailsId}
+    </select>
+        
+    <insert id="insertAddrgenRecordDetails" parameterType="AddrgenRecordDetails" useGeneratedKeys="true" keyProperty="detailsId">
+        insert into addrgen_record_details
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ipaddr != null">ipaddr,</if>
+            <if test="isactive != null">isactive,</if>
+            <if test="recordId != null">record_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ipaddr != null">#{ipaddr},</if>
+            <if test="isactive != null">#{isactive},</if>
+            <if test="recordId != null">#{recordId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenRecordDetails" parameterType="AddrgenRecordDetails">
+        update addrgen_record_details
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="ipaddr != null">ipaddr = #{ipaddr},</if>
+            <if test="isactive != null">isactive = #{isactive},</if>
+            <if test="recordId != null">record_id = #{recordId},</if>
+        </trim>
+        where details_id = #{detailsId}
+    </update>
+
+    <delete id="deleteAddrgenRecordDetailsByDetailsId" parameterType="Long">
+        delete from addrgen_record_details where details_id = #{detailsId}
+    </delete>
+
+    <delete id="deleteAddrgenRecordDetailsByDetailsIds" parameterType="String">
+        delete from addrgen_record_details where details_id in 
+        <foreach item="detailsId" collection="array" open="(" separator="," close=")">
+            #{detailsId}
+        </foreach>
+    </delete>
+
+    <select id="selectdetailsByRecordId" parameterType="Long" resultMap="AddrgenRecordDetailsResult">
+        <include refid="selectAddrgenRecordDetailsVo"/>
+        where record_id = #{recordId}
+    </select>
+</mapper>

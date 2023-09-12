@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenRecordDetectMapper">
+    
+    <resultMap type="AddrgenRecordDetect" id="AddrgenRecordDetectResult">
+        <result property="detectId"    column="detect_id"    />
+        <result property="recordId"    column="record_id"    />
+        <result property="detectTime"    column="detect_time"    />
+        <result property="hitRate"    column="hit_rate"    />
+        <result property="hitNum"    column="hit_num"    />
+        <result property="total"    column="total"    />
+        <result property="inputFile"    column="input_file"    />
+        <result property="consume"    column="consume"    />
+    </resultMap>
+
+    <sql id="selectAddrgenRecordDetectVo">
+        select detect_id, record_id, detect_time, hit_rate, hit_num, total, input_file, consume from addrgen_record_detect
+    </sql>
+
+    <select id="selectAddrgenRecordDetectList" parameterType="AddrgenRecordDetect" resultMap="AddrgenRecordDetectResult">
+        <include refid="selectAddrgenRecordDetectVo"/>
+        <where>  
+            <if test="recordId != null "> and record_id = #{recordId}</if>
+            <if test="params.beginDetectTime != null and params.beginDetectTime != '' and params.endDetectTime != null and params.endDetectTime != ''"> and detect_time between #{params.beginDetectTime} and #{params.endDetectTime}</if>
+            <if test="params.beginHitRate != null and params.beginHitRate != '' and params.endHitRate != null and params.endHitRate != ''"> and hit_rate between #{params.beginHitRate} and #{params.endHitRate}</if>
+            <if test="hitNum != null "> and hit_num = #{hitNum}</if>
+            <if test="total != null "> and total = #{total}</if>
+            <if test="inputFile != null  and inputFile != ''"> and input_file like concat('%', #{inputFile}, '%')</if>
+            <if test="params.beginConsume != null and params.beginConsume != '' and params.endConsume != null and params.endConsume != ''"> and consume between #{params.beginConsume} and #{params.endConsume}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenRecordDetectByDetectId" parameterType="Long" resultMap="AddrgenRecordDetectResult">
+        <include refid="selectAddrgenRecordDetectVo"/>
+        where detect_id = #{detectId}
+    </select>
+        
+    <insert id="insertAddrgenRecordDetect" parameterType="AddrgenRecordDetect" useGeneratedKeys="true" keyProperty="detectId">
+        insert into addrgen_record_detect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">record_id,</if>
+            <if test="detectTime != null">detect_time,</if>
+            <if test="hitRate != null">hit_rate,</if>
+            <if test="hitNum != null">hit_num,</if>
+            <if test="total != null">total,</if>
+            <if test="inputFile != null">input_file,</if>
+            <if test="consume != null">consume,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="recordId != null">#{recordId},</if>
+            <if test="detectTime != null">#{detectTime},</if>
+            <if test="hitRate != null">#{hitRate},</if>
+            <if test="hitNum != null">#{hitNum},</if>
+            <if test="total != null">#{total},</if>
+            <if test="inputFile != null">#{inputFile},</if>
+            <if test="consume != null">#{consume},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenRecordDetect" parameterType="AddrgenRecordDetect">
+        update addrgen_record_detect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="recordId != null">record_id = #{recordId},</if>
+            <if test="detectTime != null">detect_time = #{detectTime},</if>
+            <if test="hitRate != null">hit_rate = #{hitRate},</if>
+            <if test="hitNum != null">hit_num = #{hitNum},</if>
+            <if test="total != null">total = #{total},</if>
+            <if test="inputFile != null">input_file = #{inputFile},</if>
+            <if test="consume != null">consume = #{consume},</if>
+        </trim>
+        where detect_id = #{detectId}
+    </update>
+
+    <delete id="deleteAddrgenRecordDetectByDetectId" parameterType="Long">
+        delete from addrgen_record_detect where detect_id = #{detectId}
+    </delete>
+
+    <delete id="deleteAddrgenRecordDetectByDetectIds" parameterType="String">
+        delete from addrgen_record_detect where detect_id in 
+        <foreach item="detectId" collection="array" open="(" separator="," close=")">
+            #{detectId}
+        </foreach>
+    </delete>
+</mapper>

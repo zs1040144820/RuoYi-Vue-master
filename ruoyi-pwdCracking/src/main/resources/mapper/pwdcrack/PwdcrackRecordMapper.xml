@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.pwdcrack.mapper.PwdcrackRecordMapper">
+    
+    <resultMap type="PwdcrackRecord" id="PwdcrackRecordResult">
+        <result property="crackId"    column="crack_id"    />
+        <result property="desIp"    column="des_ip"    />
+        <result property="cProcotol"    column="c_procotol"    />
+        <result property="username"    column="username"    />
+        <result property="pwdDic"    column="pwd_dic"    />
+        <result property="result"    column="result"    />
+        <result property="pwdResult"    column="pwd_result"    />
+        <result property="cTime"    column="c_time"    />
+    </resultMap>
+
+    <sql id="selectPwdcrackRecordVo">
+        select crack_id, des_ip, c_procotol, username, pwd_dic, result, pwd_result,c_time from pwdcrack_record
+    </sql>
+
+    <select id="selectPwdcrackRecordList" parameterType="PwdcrackRecord" resultMap="PwdcrackRecordResult">
+        <include refid="selectPwdcrackRecordVo"/>
+        <where>  
+            <if test="desIp != null  and desIp != ''"> and des_ip = #{desIp}</if>
+            <if test="cProcotol != null  and cProcotol != ''"> and c_procotol = #{cProcotol}</if>
+            <if test="username != null  and username != ''"> and username like concat('%', #{username}, '%')</if>
+            <if test="pwdDic != null  and pwdDic != ''"> and pwd_dic = #{pwdDic}</if>
+            <if test="result != null  and result != ''"> and result like concat('%', #{result}, '%')</if>
+            <if test="pwdResult != null  and pwdResult != ''"> and pwd_result = #{pwdResult}</if>
+        </where>
+        order by c_time DESC
+    </select>
+    
+    <select id="selectPwdcrackRecordByCrackId" parameterType="Long" resultMap="PwdcrackRecordResult">
+        <include refid="selectPwdcrackRecordVo"/>
+        where crack_id = #{crackId}
+    </select>
+        
+    <insert id="insertPwdcrackRecord" parameterType="PwdcrackRecord" useGeneratedKeys="true" keyProperty="crackId">
+        insert into pwdcrack_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="desIp != null and desIp != ''">des_ip,</if>
+            <if test="cProcotol != null and cProcotol != ''">c_procotol,</if>
+            <if test="username != null and username != ''">username,</if>
+            <if test="pwdDic != null">pwd_dic,</if>
+            <if test="result != null">result,</if>
+            <if test="pwdResult != null">pwd_result,</if>
+            <if test="cTime != null">c_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="desIp != null and desIp != ''">#{desIp},</if>
+            <if test="cProcotol != null and cProcotol != ''">#{cProcotol},</if>
+            <if test="username != null and username != ''">#{username},</if>
+            <if test="pwdDic != null">#{pwdDic},</if>
+            <if test="result != null">#{result},</if>
+            <if test="pwdResult != null">#{pwdResult},</if>
+            <if test="cTime != null">#{cTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePwdcrackRecord" parameterType="PwdcrackRecord">
+        update pwdcrack_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="desIp != null and desIp != ''">des_ip = #{desIp},</if>
+            <if test="cProcotol != null and cProcotol != ''">c_procotol = #{cProcotol},</if>
+            <if test="username != null and username != ''">username = #{username},</if>
+            <if test="pwdDic != null">pwd_dic = #{pwdDic},</if>
+            <if test="result != null">result = #{result},</if>
+            <if test="pwdResult != null">pwd_result = #{pwdResult},</if>
+            <if test="cTime != null">c_time = #{cTime},</if>
+        </trim>
+        where crack_id = #{crackId}
+    </update>
+
+    <delete id="deletePwdcrackRecordByCrackId" parameterType="Long">
+        delete from pwdcrack_record where crack_id = #{crackId}
+    </delete>
+
+    <delete id="deletePwdcrackRecordByCrackIds" parameterType="String">
+        delete from pwdcrack_record where crack_id in 
+        <foreach item="crackId" collection="array" open="(" separator="," close=")">
+            #{crackId}
+        </foreach>
+    </delete>
+</mapper>

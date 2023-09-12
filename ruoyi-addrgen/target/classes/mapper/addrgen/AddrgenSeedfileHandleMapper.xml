@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenSeedfileHandleMapper">
+    
+    <resultMap type="AddrgenSeedfileHandle" id="AddrgenSeedfileHandleResult">
+        <result property="addrSeedfileId"    column="addr_seedfile_id"    />
+        <result property="addrSeedfileName"    column="addr_seedfile_name"    />
+        <result property="addrSeedfileUploadtime"    column="addr_seedfile_uploadtime"    />
+        <result property="addrSeedfileSize"    column="addr_seedfile_size"    />
+        <result property="formaticon"    column="formaticon"    />
+        <result property="collect"    column="collect"    />
+        <result property="detect"    column="detect"    />
+        <result property="detectTimes"    column="detect_times"    />
+    </resultMap>
+
+    <resultMap id="AddrgenSeedfileHandleAddrgenSeedfileDetailsResult" type="AddrgenSeedfileHandle" extends="AddrgenSeedfileHandleResult">
+        <collection property="addrgenSeedfileDetailsList" notNullColumn="sub_addrseed_id" javaType="java.util.List" resultMap="AddrgenSeedfileDetailsResult" />
+    </resultMap>
+
+    <resultMap type="AddrgenSeedfileDetails" id="AddrgenSeedfileDetailsResult">
+        <result property="addrseedId"    column="sub_addrseed_id"    />
+        <result property="addrSeedfileId"    column="sub_addr_seedfile_id"    />
+        <result property="addrseedName"    column="sub_addrseed_name"    />
+        <result property="addrseedCategory"    column="sub_addrseed_category"    />
+        <result property="ipaddress"    column="sub_ipaddress"    />
+        <result property="collectTime"    column="sub_collect_time"    />
+        <result property="standardIpaddress"    column="sub_standard_ipaddress"    />
+        <result property="asn"    column="sub_asn"    />
+        <result property="bgpPrefix"    column="sub_bgp_prefix"    />
+        <result property="interfaceId"    column="sub_interface_id"    />
+        <result property="responseType"    column="sub_response_type"    />
+        <result property="stability"    column="sub_stability"    />
+        <result property="detect0"    column="sub_detect0"    />
+        <result property="detect1"    column="sub_detect1"    />
+        <result property="detect2"    column="sub_detect2"    />
+        <result property="detect3"    column="sub_detect3"    />
+        <result property="detect4"    column="sub_detect4"    />
+        <result property="detect5"    column="sub_detect5"    />
+        <result property="detect6"    column="sub_detect6"    />
+        <result property="detect7"    column="sub_detect7"    />
+        <result property="detect8"    column="sub_detect8"    />
+        <result property="detect9"    column="sub_detect9"    />
+        <result property="detect10"    column="sub_detect10"    />
+        <result property="detect11"    column="sub_detect11"    />
+        <result property="detect12"    column="sub_detect12"    />
+        <result property="detect13"    column="sub_detect13"    />
+        <result property="detect14"    column="sub_detect14"    />
+        <result property="detect15"    column="sub_detect15"    />
+        <result property="detect16"    column="sub_detect16"    />
+        <result property="detect17"    column="sub_detect17"    />
+        <result property="detect18"    column="sub_detect18"    />
+        <result property="detect19"    column="sub_detect19"    />
+        <result property="detect20"    column="sub_detect20"    />
+        <result property="detect21"    column="sub_detect21"    />
+        <result property="detect22"    column="sub_detect22"    />
+        <result property="detect23"    column="sub_detect23"    />
+        <result property="detect24"    column="sub_detect24"    />
+        <result property="detect25"    column="sub_detect25"    />
+        <result property="detect26"    column="sub_detect26"    />
+        <result property="detect27"    column="sub_detect27"    />
+        <result property="detect28"    column="sub_detect28"    />
+        <result property="detect29"    column="sub_detect29"    />
+    </resultMap>
+
+    <sql id="selectAddrgenSeedfileHandleVo">
+        select addr_seedfile_id, addr_seedfile_name, addr_seedfile_uploadtime, addr_seedfile_size,formaticon,collect,detect,detect_times from addrgen_seedfile_handle
+    </sql>
+
+    <select id="selectAddrgenSeedfileHandleList" parameterType="AddrgenSeedfileHandle" resultMap="AddrgenSeedfileHandleResult">
+        <include refid="selectAddrgenSeedfileHandleVo"/>
+        <where>  
+            <if test="addrSeedfileName != null  and addrSeedfileName != ''"> and addr_seedfile_name like concat('%', #{addrSeedfileName}, '%')</if>
+            <if test="addrSeedfileUploadtime != null "> and addr_seedfile_uploadtime = #{addrSeedfileUploadtime}</if>
+            <if test="addrSeedfileSize != null  and addrSeedfileSize != ''"> and addr_seedfile_size = #{addrSeedfileSize}</if>
+            <if test="formaticon != null  and formaticon != ''"> and formaticon = #{formaticon}</if>
+            <if test="collect != null  and collect != ''"> and collect = #{collect}</if>
+            <if test="detect != null  and detect != ''"> and detect = #{detect}</if>
+            <if test="detectTimes != null "> and detect_times = #{detectTimes}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenSeedfileHandleByAddrSeedfileId" parameterType="Long" resultMap="AddrgenSeedfileHandleAddrgenSeedfileDetailsResult">
+        select a.addr_seedfile_id, a.addr_seedfile_name, a.addr_seedfile_uploadtime, a.addr_seedfile_size,a.detect_times,
+ b.addrseed_id as sub_addrseed_id, b.addr_seedfile_id as sub_addr_seedfile_id, b.addrseed_name as sub_addrseed_name, b.addrseed_category as sub_addrseed_category, b.ipaddress as sub_ipaddress, b.collect_time as sub_collect_time, b.standard_ipaddress as sub_standard_ipaddress, b.asn as sub_asn, b.bgp_prefix as sub_bgp_prefix, b.interface_id as sub_interface_id, b.response_type as sub_response_type, b.stability as sub_stability, b.detect0 as sub_detect0, b.detect1 as sub_detect1, b.detect2 as sub_detect2, b.detect3 as sub_detect3, b.detect4 as sub_detect4, b.detect5 as sub_detect5, b.detect6 as sub_detect6, b.detect7 as sub_detect7, b.detect8 as sub_detect8, b.detect9 as sub_detect9, b.detect10 as sub_detect10, b.detect11 as sub_detect11, b.detect12 as sub_detect12, b.detect13 as sub_detect13, b.detect14 as sub_detect14, b.detect15 as sub_detect15, b.detect16 as sub_detect16, b.detect17 as sub_detect17, b.detect18 as sub_detect18, b.detect19 as sub_detect19, b.detect20 as sub_detect20, b.detect21 as sub_detect21, b.detect22 as sub_detect22, b.detect23 as sub_detect23, b.detect24 as sub_detect24, b.detect25 as sub_detect25, b.detect26 as sub_detect26, b.detect27 as sub_detect27, b.detect28 as sub_detect28, b.detect29 as sub_detect29
+        from addrgen_seedfile_handle a
+        left join addrgen_seedfile_details b on b.addr_seedfile_id = a.addr_seedfile_id
+        where a.addr_seedfile_id = #{addrSeedfileId}
+    </select>
+
+    <insert id="insertAddrgenSeedfileHandle" parameterType="AddrgenSeedfileHandle" useGeneratedKeys="true" keyProperty="addrSeedfileId">
+        insert into addrgen_seedfile_handle
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name,</if>
+            <if test="addrSeedfileUploadtime != null">addr_seedfile_uploadtime,</if>
+            <if test="addrSeedfileSize != null and addrSeedfileSize != ''">addr_seedfile_size,</if>
+            <if test="formaticon != null">formaticon,</if>
+            <if test="collect != null">collect,</if>
+            <if test="detect != null">detect,</if>
+            <if test="detectTimes != null">detect_times,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">#{addrSeedfileName},</if>
+            <if test="addrSeedfileUploadtime != null">#{addrSeedfileUploadtime},</if>
+            <if test="addrSeedfileSize != null and addrSeedfileSize != ''">#{addrSeedfileSize},</if>
+            <if test="formaticon != null">#{formaticon},</if>
+            <if test="collect != null">#{collect},</if>
+            <if test="detect != null">#{detect},</if>
+            <if test="detectTimes != null">#{detect_times},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenSeedfileHandle" parameterType="AddrgenSeedfileHandle">
+        update addrgen_seedfile_handle
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name = #{addrSeedfileName},</if>
+            <if test="addrSeedfileUploadtime != null">addr_seedfile_uploadtime = #{addrSeedfileUploadtime},</if>
+            <if test="addrSeedfileSize != null and addrSeedfileSize != ''">addr_seedfile_size = #{addrSeedfileSize},</if>
+            <if test="formaticon != null">formaticon = #{formaticon},</if>
+            <if test="collect != null">collect = #{collect},</if>
+            <if test="detect != null">detect = #{detect},</if>
+            <if test="detectTimes != null">detect_times = #{detectTimes},</if>
+        </trim>
+        where addr_seedfile_id = #{addrSeedfileId}
+    </update>
+
+    <delete id="deleteAddrgenSeedfileHandleByAddrSeedfileId" parameterType="Long">
+        delete from addrgen_seedfile_handle where addr_seedfile_id = #{addrSeedfileId}
+    </delete>
+
+    <delete id="deleteAddrgenSeedfileHandleByAddrSeedfileIds" parameterType="String">
+        delete from addrgen_seedfile_handle where addr_seedfile_id in 
+        <foreach item="addrSeedfileId" collection="array" open="(" separator="," close=")">
+            #{addrSeedfileId}
+        </foreach>
+    </delete>
+    
+    <delete id="deleteAddrgenSeedfileDetailsByAddrSeedfileIds" parameterType="String">
+        delete from addrgen_seedfile_details where addr_seedfile_id in 
+        <foreach item="addrSeedfileId" collection="array" open="(" separator="," close=")">
+            #{addrSeedfileId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteAddrgenSeedfileDetailsByAddrSeedfileId" parameterType="Long">
+        delete from addrgen_seedfile_details where addr_seedfile_id = #{addrSeedfileId}
+    </delete>
+
+    <insert id="batchAddrgenSeedfileDetails">
+        insert into addrgen_seedfile_details( addrseed_id, addr_seedfile_id, addrseed_name, addrseed_category, ipaddress, collect_time, standard_ipaddress, asn, bgp_prefix, interface_id, response_type, stability, detect0, detect1, detect2, detect3, detect4, detect5, detect6, detect7, detect8, detect9, detect10, detect11, detect12, detect13, detect14, detect15, detect16, detect17, detect18, detect19, detect20, detect21, detect22, detect23, detect24, detect25, detect26, detect27, detect28, detect29) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.addrseedId}, #{item.addrSeedfileId}, #{item.addrseedName}, #{item.addrseedCategory}, #{item.ipaddress}, #{item.collectTime}, #{item.standardIpaddress}, #{item.asn}, #{item.bgpPrefix}, #{item.interfaceId}, #{item.responseType}, #{item.stability}, #{item.detect0}, #{item.detect1}, #{item.detect2}, #{item.detect3}, #{item.detect4}, #{item.detect5}, #{item.detect6}, #{item.detect7}, #{item.detect8}, #{item.detect9}, #{item.detect10}, #{item.detect11}, #{item.detect12}, #{item.detect13}, #{item.detect14}, #{item.detect15}, #{item.detect16}, #{item.detect17}, #{item.detect18}, #{item.detect19}, #{item.detect20}, #{item.detect21}, #{item.detect22}, #{item.detect23}, #{item.detect24}, #{item.detect25}, #{item.detect26}, #{item.detect27}, #{item.detect28}, #{item.detect29})
+        </foreach>
+    </insert>
+
+</mapper>

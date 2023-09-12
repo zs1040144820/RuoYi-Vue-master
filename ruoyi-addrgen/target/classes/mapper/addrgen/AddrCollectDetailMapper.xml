@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrCollectDetailMapper">
+
+    <!-- 建立 对象-表 的映射 -->
+    <resultMap type="AddrCollectDetail" id="AddrCollectAddrResult">
+        <result property="TaskID"    column="addr_collect_uid"    />
+        <result property="IpAddr"    column="addr_collect_detail"    />
+    </resultMap>
+
+    <!-- 查询代码 -->
+    <sql id="selectDetailVo">
+        select addr_collect_uid, addr_collect_detail from addrcollect_detail
+    </sql>
+
+    <!--实现条件查询 -->
+    <select id="selectDetail" parameterType="String" resultMap="AddrCollectAddrResult">
+        select * from addrcollect_detail where addr_collect_uid = #{TaskID}
+    </select>
+
+    <!--实现条件查询 -->
+    <select id="selectIps2" parameterType="String" resultMap="AddrCollectAddrResult">
+        select * from addrcollect_detail
+    </select>
+
+    <delete id="deleteDetailByUid" parameterType="String">
+        delete from addrcollect_detail where addr_collect_uid = #{TaskID}
+    </delete>
+
+    <!--
+    <insert id="insertIntoDetail" parameterType="AddrCollectDetail" useGeneratedKeys="false">
+        insert into addrcollect_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="filename != null and filename != ''">addr_collect_name,</if>
+            <if test="timetype != null">addr_collect_timetype,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="filename != null and filename != ''">#{filename},</if>
+            <if test="timetype != null">#{timetype},</if>
+        </trim>
+    </insert>插入记录 -->
+
+    <!-- 批量插入记录 -->
+    <insert id="batchInsertDetail">
+        insert into addrcollect_detail( addr_collect_uid, addr_collect_detail) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.TaskID}, #{item.IpAddr})
+        </foreach>
+    </insert>
+
+    <!--
+    <update id="updateTaskList" parameterType="AddrCollect">
+        update addrcollect_tasklist
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="filename != null and filename != ''">addr_collect_name = #{filename},</if>
+            <if test="timetype != null">addr_collect_timetype = #{timetype},</if>
+            <if test="collectime != null and collectime != ''">addr_collect_collectime = #{collectime},</if>
+            <if test="startime != null">addr_collect_startime = #{startime},</if>
+            <if test="tasksituation != null">addr_collect_tasksituation = #{tasksituation},</if>
+            <if test="commandresponse != null">addr_collect_commandresponse = #{commandresponse},</if>
+            <if test="uniqueID != null">addr_collect_uid = #{uniqueID},</if>
+        </trim>
+        where addr_collect_uid = #{uniqueID}
+    </update>更新记录 -->
+
+</mapper>

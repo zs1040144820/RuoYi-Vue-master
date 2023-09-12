@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vuln.mapper.VulnScriptMapper">
+    
+    <resultMap type="VulnScript" id="VulnScriptResult">
+        <result property="scriptId"    column="script_id"    />
+        <result property="scriptName"    column="script_name"    />
+        <result property="cve"    column="cve"    />
+        <result property="cvss20"    column="cvss20"    />
+        <result property="cvss30"    column="cvss30"    />
+        <result property="cvss31"    column="cvss31"    />
+    </resultMap>
+
+    <sql id="selectVulnScriptVo">
+        select script_id, script_name, cve, cvss20, cvss30, cvss31 from vuln_script
+    </sql>
+
+    <select id="selectVulnScriptList" parameterType="VulnScript" resultMap="VulnScriptResult">
+        <include refid="selectVulnScriptVo"/>
+        <where>  
+            <if test="scriptName != null  and scriptName != ''"> and script_name like concat('%', #{scriptName}, '%')</if>
+            <if test="cve != null  and cve != ''"> and cve = #{cve}</if>
+            <if test="cvss20 != null  and cvss20 != ''"> and cvss20 = #{cvss20}</if>
+            <if test="cvss30 != null  and cvss30 != ''"> and cvss30 = #{cvss30}</if>
+            <if test="cvss31 != null  and cvss31 != ''"> and cvss31 = #{cvss31}</if>
+        </where>
+    </select>
+    
+    <select id="selectVulnScriptByScriptId" parameterType="Long" resultMap="VulnScriptResult">
+        <include refid="selectVulnScriptVo"/>
+        where script_id = #{scriptId}
+    </select>
+        
+    <insert id="insertVulnScript" parameterType="VulnScript" useGeneratedKeys="true" keyProperty="scriptId">
+        insert into vuln_script
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="scriptName != null">script_name,</if>
+            <if test="cve != null">cve,</if>
+            <if test="cvss20 != null">cvss20,</if>
+            <if test="cvss30 != null">cvss30,</if>
+            <if test="cvss31 != null">cvss31,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="scriptName != null">#{scriptName},</if>
+            <if test="cve != null">#{cve},</if>
+            <if test="cvss20 != null">#{cvss20},</if>
+            <if test="cvss30 != null">#{cvss30},</if>
+            <if test="cvss31 != null">#{cvss31},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVulnScript" parameterType="VulnScript">
+        update vuln_script
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="scriptName != null">script_name = #{scriptName},</if>
+            <if test="cve != null">cve = #{cve},</if>
+            <if test="cvss20 != null">cvss20 = #{cvss20},</if>
+            <if test="cvss30 != null">cvss30 = #{cvss30},</if>
+            <if test="cvss31 != null">cvss31 = #{cvss31},</if>
+        </trim>
+        where script_id = #{scriptId}
+    </update>
+
+    <delete id="deleteVulnScriptByScriptId" parameterType="Long">
+        delete from vuln_script where script_id = #{scriptId}
+    </delete>
+
+    <delete id="deleteVulnScriptByScriptIds" parameterType="String">
+        delete from vuln_script where script_id in 
+        <foreach item="scriptId" collection="array" open="(" separator="," close=")">
+            #{scriptId}
+        </foreach>
+    </delete>
+
+    <select id="selectGradeByCve" parameterType="String" resultMap="VulnScriptResult">
+        <include refid="selectVulnScriptVo"/>
+        where cve = #{cve}
+    </select>
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.addrgen.mapper.AddrgenSeedfileCollectMapper">
+    
+    <resultMap type="AddrgenSeedfileCollect" id="AddrgenSeedfileCollectResult">
+        <result property="collectRecordId"    column="collect_record_id"    />
+        <result property="addrSeedfileId"    column="addr_seedfile_id"    />
+        <result property="addrSeedfileName"    column="addr_seedfile_name"    />
+        <result property="collectTime"    column="collect_time"    />
+        <result property="collectConsuming"    column="collect_consuming"    />
+        <result property="activeIpnum"    column="active_ipnum"    />
+        <result property="totalIpnum"    column="total_ipnum"    />
+        <result property="collectStatus"    column="collect_status"    />
+    </resultMap>
+
+    <sql id="selectAddrgenSeedfileCollectVo">
+        select collect_record_id, addr_seedfile_id, addr_seedfile_name, collect_time, collect_consuming, active_ipnum, total_ipnum, collect_status from addrgen_seedfile_collect
+    </sql>
+
+    <select id="selectAddrgenSeedfileCollectList" parameterType="AddrgenSeedfileCollect" resultMap="AddrgenSeedfileCollectResult">
+        <include refid="selectAddrgenSeedfileCollectVo"/>
+        <where>  
+            <if test="addrSeedfileId != null "> and addr_seedfile_id = #{addrSeedfileId}</if>
+            <if test="addrSeedfileName != null  and addrSeedfileName != ''"> and addr_seedfile_name like concat('%', #{addrSeedfileName}, '%')</if>
+            <if test="params.beginCollectTime != null and params.beginCollectTime != '' and params.endCollectTime != null and params.endCollectTime != ''"> and collect_time between #{params.beginCollectTime} and #{params.endCollectTime}</if>
+            <if test="collectConsuming != null  and collectConsuming != ''"> and collect_consuming = #{collectConsuming}</if>
+            <if test="params.beginActiveIpnum != null and params.beginActiveIpnum != '' and params.endActiveIpnum != null and params.endActiveIpnum != ''"> and active_ipnum between #{params.beginActiveIpnum} and #{params.endActiveIpnum}</if>
+            <if test="params.beginTotalIpnum != null and params.beginTotalIpnum != '' and params.endTotalIpnum != null and params.endTotalIpnum != ''"> and total_ipnum between #{params.beginTotalIpnum} and #{params.endTotalIpnum}</if>
+        </where>
+    </select>
+    
+    <select id="selectAddrgenSeedfileCollectByCollectRecordId" parameterType="Long" resultMap="AddrgenSeedfileCollectResult">
+        <include refid="selectAddrgenSeedfileCollectVo"/>
+        where collect_record_id = #{collectRecordId}
+    </select>
+        
+    <insert id="insertAddrgenSeedfileCollect" parameterType="AddrgenSeedfileCollect">
+        insert into addrgen_seedfile_collect
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="collectRecordId != null">collect_record_id,</if>
+            <if test="addrSeedfileId != null">addr_seedfile_id,</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name,</if>
+            <if test="collectTime != null">collect_time,</if>
+            <if test="collectConsuming != null">collect_consuming,</if>
+            <if test="activeIpnum != null">active_ipnum,</if>
+            <if test="totalIpnum != null">total_ipnum,</if>
+            <if test="collectStatus != null">collect_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="collectRecordId != null">#{collectRecordId},</if>
+            <if test="addrSeedfileId != null">#{addrSeedfileId},</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">#{addrSeedfileName},</if>
+            <if test="collectTime != null">#{collectTime},</if>
+            <if test="collectConsuming != null">#{collectConsuming},</if>
+            <if test="activeIpnum != null">#{activeIpnum},</if>
+            <if test="totalIpnum != null">#{totalIpnum},</if>
+            <if test="collectStatus != null">#{collectStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAddrgenSeedfileCollect" parameterType="AddrgenSeedfileCollect">
+        update addrgen_seedfile_collect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id = #{addrSeedfileId},</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name = #{addrSeedfileName},</if>
+            <if test="collectTime != null">collect_time = #{collectTime},</if>
+            <if test="collectConsuming != null">collect_consuming = #{collectConsuming},</if>
+            <if test="activeIpnum != null">active_ipnum = #{activeIpnum},</if>
+            <if test="totalIpnum != null">total_ipnum = #{totalIpnum},</if>
+            <if test="collectStatus != null">collect_status = #{collectStatus},</if>
+        </trim>
+        where collect_record_id = #{collectRecordId}
+    </update>
+    <update id="updateAddrgenSeedfileCollectByfileID" parameterType="AddrgenSeedfileCollect">
+        update addrgen_seedfile_collect
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addrSeedfileId != null">addr_seedfile_id = #{addrSeedfileId},</if>
+            <if test="addrSeedfileName != null and addrSeedfileName != ''">addr_seedfile_name = #{addrSeedfileName},</if>
+            <if test="collectTime != null">collect_time = #{collectTime},</if>
+            <if test="collectConsuming != null">collect_consuming = #{collectConsuming},</if>
+            <if test="activeIpnum != null">active_ipnum = #{activeIpnum},</if>
+            <if test="totalIpnum != null">total_ipnum = #{totalIpnum},</if>
+            <if test="collectStatus != null">collect_status = #{collectStatus},</if>
+        </trim>
+        where addr_seedfile_id = #{addrSeedfileId}
+    </update>
+
+    <delete id="deleteAddrgenSeedfileCollectByCollectRecordId" parameterType="Long">
+        delete from addrgen_seedfile_collect where collect_record_id = #{collectRecordId}
+    </delete>
+
+    <delete id="deleteAddrgenSeedfileCollectByCollectRecordIds" parameterType="String">
+        delete from addrgen_seedfile_collect where collect_record_id in 
+        <foreach item="collectRecordId" collection="array" open="(" separator="," close=")">
+            #{collectRecordId}
+        </foreach>
+    </delete>
+</mapper>

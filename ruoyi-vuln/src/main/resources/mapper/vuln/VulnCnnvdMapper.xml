@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.vuln.mapper.VulnCnnvdMapper">
+    
+    <resultMap type="VulnCnnvd" id="VulnCnnvdResult">
+        <result property="name"    column="name"    />
+        <result property="vulnId"    column="vuln_id"    />
+        <result property="published"    column="published"    />
+        <result property="modified"    column="modified"    />
+        <result property="source"    column="source"    />
+        <result property="severity"    column="severity"    />
+        <result property="vulnType"    column="vuln_type"    />
+        <result property="vulnDescript"    column="vuln_descript"    />
+        <result property="cveId"    column="cve_id"    />
+        <result property="vulnSolution"    column="vuln_Solution"    />
+        <result property="fileYear"    column="file_year"    />
+        <result property="cnnvdId"    column="cnnvd_id"    />
+    </resultMap>
+
+    <sql id="selectVulnCnnvdVo">
+        select name, vuln_id, published, modified, source, severity, vuln_type, vuln_descript, cve_id, vuln_solution, file_year, cnnvd_id from vuln_cnnvd
+    </sql>
+
+    <select id="selectVulnCnnvdList" parameterType="VulnCnnvd" resultMap="VulnCnnvdResult">
+        <include refid="selectVulnCnnvdVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="vulnId != null  and vulnId != ''"> and vuln_id = #{vulnId}</if>
+            <if test="published != null "> and published = #{published}</if>
+            <if test="modified != null "> and modified = #{modified}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="severity != null  and severity != ''"> and severity = #{severity}</if>
+            <if test="vulnType != null  and vulnType != ''"> and vuln_type = #{vulnType}</if>
+            <if test="vulnDescript != null  and vulnDescript != ''"> and vuln_descript = #{vulnDescript}</if>
+            <if test="cveId != null  and cveId != ''"> and cve_id = #{cveId}</if>
+            <if test="vulnSolution != null  and vulnSolution != ''"> and vuln_solution = #{vuln_solution}</if>
+            <if test="fileYear != null "> and file_year = #{fileYear}</if>
+        </where>
+    </select>
+    
+    <select id="selectVulnCnnvdByCnnvdId" parameterType="Long" resultMap="VulnCnnvdResult">
+        <include refid="selectVulnCnnvdVo"/>
+        where cnnvd_id = #{cnnvdId}
+    </select>
+        
+    <insert id="insertVulnCnnvd" parameterType="VulnCnnvd" useGeneratedKeys="true" keyProperty="cnnvdId">
+        insert into vuln_cnnvd
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="vulnId != null">vuln_id,</if>
+            <if test="published != null">published,</if>
+            <if test="modified != null">modified,</if>
+            <if test="source != null">source,</if>
+            <if test="severity != null">severity,</if>
+            <if test="vulnType != null">vuln_type,</if>
+            <if test="vulnDescript != null">vuln_descript,</if>
+            <if test="cveId != null">cve_id,</if>
+            <if test="vulnSolution != null">vuln_solution,</if>
+            <if test="fileYear != null">file_year,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="vulnId != null">#{vulnId},</if>
+            <if test="published != null">#{published},</if>
+            <if test="modified != null">#{modified},</if>
+            <if test="source != null">#{source},</if>
+            <if test="severity != null">#{severity},</if>
+            <if test="vulnType != null">#{vulnType},</if>
+            <if test="vulnDescript != null">#{vulnDescript},</if>
+            <if test="cveId != null">#{cveId},</if>
+            <if test="vulnSolution != null">#{vulnSolution},</if>
+            <if test="fileYear != null">#{fileYear},</if>
+         </trim>
+    </insert>
+
+    <update id="updateVulnCnnvd" parameterType="VulnCnnvd">
+        update vuln_cnnvd
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="vulnId != null">vuln_id = #{vulnId},</if>
+            <if test="published != null">published = #{published},</if>
+            <if test="modified != null">modified = #{modified},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="severity != null">severity = #{severity},</if>
+            <if test="vulnType != null">vuln_type = #{vulnType},</if>
+            <if test="vulnDescript != null">vuln_descript = #{vulnDescript},</if>
+            <if test="cveId != null">cve_id = #{cveId},</if>
+            <if test="vulnSolution != null">vuln_solution = #{vulnSolution},</if>
+            <if test="fileYear != null">file_year = #{fileYear},</if>
+        </trim>
+        where cnnvd_id = #{cnnvdId}
+    </update>
+
+    <delete id="deleteVulnCnnvdByCnnvdId" parameterType="Long">
+        delete from vuln_cnnvd where cnnvd_id = #{cnnvdId}
+    </delete>
+
+    <delete id="deleteVulnCnnvdByCnnvdIds" parameterType="String">
+        delete from vuln_cnnvd where cnnvd_id in 
+        <foreach item="cnnvdId" collection="array" open="(" separator="," close=")">
+            #{cnnvdId}
+        </foreach>
+    </delete>
+</mapper>
